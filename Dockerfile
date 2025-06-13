@@ -36,8 +36,5 @@ WORKDIR /home/coder
 # Expose code-server port
 EXPOSE 8080
 
-# Set default password (override via env var at runtime)
-ENV PASSWORD=changeme
-
 # Start code-server
 CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password"]
