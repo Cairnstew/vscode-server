@@ -107,14 +107,6 @@ docker compose up --build
 
 ---
 
-## 💪 Todo / Improvements
-
-* Support for Marketplace extensions by ID
-* Auto-generate `extensions.txt` from extension IDs
-* Optional password auth disablement
-
----
-
 ## 📄 License
 
 MIT License
