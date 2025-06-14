@@ -1,0 +1,5 @@
+
+# Example:
+# https://github.com/EmmyLua/VSCode-EmmyLua/releases/download/0.2.1/emmylua-0.2.1.vsix
+# https://github.com/trixnz/vscode-lua/releases/download/v0.12.4/vscode-lua-0.12.4.vsix
+

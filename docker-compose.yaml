@@ -9,5 +9,12 @@ services:
     environment:
       - PASSWORD=changeme  # 🔐 Change this in production!
     volumes:
-      - ./project:/home/coder/project  # Mount local ./project to container
+          - code-server-data:/home/coder/.local/share/code-server
+          - ./projects:/home/coder/projects
+          - ./extensions.txt:/home/coder/extensions.txt
+         
+   
     restart: unless-stopped
+
+volumes:
+  code-server-data:
