@@ -17,7 +17,6 @@ A lightweight, secure setup for running a web-based Visual Studio Code environme
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- A local `projects/` directory in the project root for code files
 
 ## Project Structure
 
