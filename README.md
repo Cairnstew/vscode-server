@@ -13,14 +13,12 @@ Prerequisites
 
 Docker
 Docker Compose
-A local projects directory for code (create it in the project root before running).
 
 Project Structure
 .
 ├── Dockerfile
 ├── docker-compose.yml
 ├── .env
-├── projects/
 └── scripts/
     └── entry.sh
 
@@ -28,7 +26,6 @@ Project Structure
 Dockerfile: Defines the container setup, including code-server installation and user configuration.
 docker-compose.yml: Configures the code-server service with port mapping and volumes.
 .env: Environment variables for project name, port, and password.
-projects/: Host directory for your code, mounted to /home/coder/projects in the container.
 scripts/entry.sh: Entrypoint script to start code-server.
 
 Setup Instructions
@@ -61,7 +58,6 @@ Log in with the password from the .env file (e.g., securepassword123).
 
 Usage
 
-Coding: Place your code in the projects directory on the host, and it will appear in /home/coder/projects in code-server.
 Extensions: The Python extension (ms-python.python) is pre-installed. Install additional extensions via the code-server UI or define them in the Dockerfile.
 Persistence: User settings and extensions persist in the myproject_data Docker volume.
 Stopping the Container:docker-compose down
