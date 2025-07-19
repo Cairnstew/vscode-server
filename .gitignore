@@ -1,0 +1,5 @@
+# Ignore the projects folder and its contents
+/projects/
+
+# Ignore environment files
+.env

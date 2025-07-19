@@ -1,112 +1,76 @@
-# 🖥️ VSCode Server (code-server) in Docker
+Code-Server Docker Setup
+This project sets up a web-based Visual Studio Code environment using code-server in a Docker container.
+Overview
 
-This project provides a ready-to-use Dockerized [code-server](https://github.com/coder/code-server) setup running on Ubuntu 22.04, with support for automatic VSIX extension downloads and non-root user configuration.
+Base Image: Ubuntu 22.04
+User: Non-root user coder
+Port: 8080 (configurable via .env)
+Authentication: Password-based (set via .env)
+Persistence: User settings and extensions are stored in a Docker volume; project files are mounted from the host.
+Extensions: Includes ms-python.python for Python development.
 
-## ✨ Features
+Prerequisites
 
-* 🐗 Based on `ubuntu:22.04`
-* 🔐 Runs as non-root `coder` user with sudo access
-* 🧩 Automatically installs VS Code extensions from a list of VSIX URLs
-* 📁 Persistent volume for settings and projects
-* 🚪 Exposes `code-server` on port `8080`
-* 🔄 Auto-enables installed extensions in `settings.json`
+Docker
+Docker Compose
+A local projects directory for code (create it in the project root before running).
 
----
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Cairnstew/vscode-server.git
-cd vscode-server
-```
-
-### 2. Add Your Extensions
-
-Update `extensions.txt` with one VSIX URL per line. Example:
-
-```
-https://github.com/EmmyLua/VSCode-EmmyLua/releases/download/0.2.1/emmylua-0.2.1.vsix
-https://github.com/trixnz/vscode-lua/releases/download/v0.12.4/vscode-lua-0.12.4.vsix
-```
-
-### 3. Start the Server
-
-```bash
-docker compose up --build -d
-```
-
-Access it at: [http://localhost:8080](http://localhost:8080)
-
-🗱️ Default password is `changeme` — **you must change this in production** via the `PASSWORD` environment variable.
-
----
-
-## 🔧 Project Structure
-
-```
+Project Structure
 .
 ├── Dockerfile
 ├── docker-compose.yml
-├── extensions.txt             # List of VSIX extension URLs
+├── .env
+├── projects/
 └── scripts/
-    ├── install-extensions.sh  # Downloads and installs extensions
-    ├── add-extensions-user.sh # Enables extensions in settings.json
-    └── entry.sh               # Entrypoint script to prepare the environment
-```
+    └── entry.sh
 
----
 
-## ⚙️ Environment Variables
+Dockerfile: Defines the container setup, including code-server installation and user configuration.
+docker-compose.yml: Configures the code-server service with port mapping and volumes.
+.env: Environment variables for project name, port, and password.
+projects/: Host directory for your code, mounted to /home/coder/projects in the container.
+scripts/entry.sh: Entrypoint script to start code-server.
 
-| Variable   | Description                     | Default  |
-| ---------- | ------------------------------- | -------- |
-| `PASSWORD` | Password for code-server access | changeme |
+Setup Instructions
 
----
+Clone the Repository (or create the files manually):
+git clone <repository-url>
+cd <repository-directory>
 
-## 🧩 How Extensions Work
 
-1. On container startup:
+Create the .env File:Copy the .env.example and edit the following content:
+COMPOSE_PROJECT_NAME=myproject
+PASSWORD=securepassword123
+PORT=8080
 
-   * `install-extensions.sh` downloads and verifies VSIX files from `extensions.txt`
-   * Valid VSIX files are installed using `code-server --install-extension`
-2. `add-extensions-user.sh` enables these extensions in the user `settings.json`
 
----
+COMPOSE_PROJECT_NAME: Sets the container and volume names.
+PASSWORD: Password for accessing code-server.
+PORT: Host port mapped to the container’s port 8080.
 
-## 📁 Volumes
+Build and Run the Container:
+docker-compose up -d --build
 
-| Volume             | Path                                   | Purpose                         |
-| ------------------ | -------------------------------------- | ------------------------------- |
-| `code-server-data` | `/home/coder/.local/share/code-server` | Persistent user data            |
-| Bind Mount         | `/home/coder/projects`                 | Your local `./projects/` folder |
 
----
+Access Code-Server:
 
-## 🚩 Stopping the Server
+Open your browser and navigate to http://localhost:8080 (or the port specified in .env).
+Log in with the password from the .env file (e.g., securepassword123).
 
-```bash
-docker compose down
-```
 
-To rebuild from scratch (e.g. after changing extensions):
 
-```bash
-docker compose down -v
-docker compose up --build
-```
+Usage
 
----
+Coding: Place your code in the projects directory on the host, and it will appear in /home/coder/projects in code-server.
+Extensions: The Python extension (ms-python.python) is pre-installed. Install additional extensions via the code-server UI or define them in the Dockerfile.
+Persistence: User settings and extensions persist in the myproject_data Docker volume.
+Stopping the Container:docker-compose down
 
-## 🧪 Example VSIX Sources
 
-* EmmyLua: [https://github.com/EmmyLua/VSCode-EmmyLua/releases](https://github.com/EmmyLua/VSCode-EmmyLua/releases)
-* Trixnz Lua: [https://github.com/trixnz/vscode-lua/releases](https://github.com/trixnz/vscode-lua/releases)
+Security Notes
 
----
+The coder user has passwordless sudo access. For production, restrict sudo permissions.
+Avoid hardcoding the PASSWORD in .env. Use Docker secrets or a vault for secure password management.
 
-## 📄 License
-
-MIT License
+License
+This project is licensed under the MIT License.

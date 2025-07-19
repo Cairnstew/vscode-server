@@ -3,18 +3,16 @@ version: '3.8'
 services:
   vscode:
     build: .
-    container_name: vscode-server
+    env_file:
+      - .env
+    container_name: ${COMPOSE_PROJECT_NAME}_vscode-server
     ports:
-      - "8080:8080"
-    environment:
-      - PASSWORD=changeme  # 🔐 Change this in production!
+      - "${PORT}:8080"
     volumes:
-          - code-server-data:/home/coder/.local/share/code-server
+          - app_data:/home/coder/.local/share/code-server
           - ./projects:/home/coder/projects
-          - ./extensions.txt:/home/coder/extensions.txt
-         
-   
     restart: unless-stopped
 
 volumes:
-  code-server-data:
+  app_data:
+    name: ${COMPOSE_PROJECT_NAME}_data
